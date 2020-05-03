@@ -8,7 +8,14 @@ server.use(bodyParser.json());
 //setting the port.
 server.set("port", process.env.PORT || 3000);
 
-server.use(express.static(__dirname));
+server.use(express.static(__dirname), function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+});
 
 server.post("/connect", function (request, response) {
     backend
