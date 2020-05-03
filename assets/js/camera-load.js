@@ -1,22 +1,11 @@
-$(document).ready(function() {
-    var video = $('#video');
-    
-	navigator.getMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia || navigator.oGetUserMedia;
-	if (navigator.getUserMedia) {
-        //constraints
-        navigator.getUserMedia({video:true, audio:false},handleVideo,videoError)
-        
-    }
-    
-    function handleVideo(stream){
-        console.log("Good morning today is a wonderful day")
-        video.srcObject = stream; 
-        video.play();
-    }
-
-    function videoError(e){
-        alert("Video Error")
-    }
-                       
-
-});
+var video = document.querySelector("#video");
+ 
+if (navigator.mediaDevices.getUserMedia) {       
+    navigator.mediaDevices.getUserMedia({video: true})
+  .then(function(stream) {
+    video.srcObject = stream;
+  })
+  .catch(function(err0r) {
+    console.log("Something went wrong!");
+  });
+}
