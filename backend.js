@@ -72,6 +72,7 @@ module.exports = {
             postalCode: postalCode,
             maxNumberOfPeople: maxNumberOfPeople,
             description: description,
+            numberOfPeople: 0
         };
         db.collection("business_accounts")
             .find({ emailAddress: email, pass: pass })
