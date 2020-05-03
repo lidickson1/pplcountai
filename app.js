@@ -1,12 +1,18 @@
-const http = require("http");
-const port = process.env.PORT || 3000;
+//server.js
+const express = require("express");
+const server = express();
 
-const server = http.createServer((req, res) => {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/html");
-    res.end("<h1>Hello World</h1>");
+//setting the port.
+server.set("port", process.env.PORT || 3000);
+
+//Adding routes
+server.get("/", (request, response) => {
+    response.sendFile(__dirname + "/index.html");
 });
 
-server.listen(port, () => {
-    console.log(`Server running at port ` + port);
-});
+// server.get("/users", (request, response) => {
+//     response.json(users);
+// });
+
+//Binding to localhost://3000
+server.listen(server.get("port"));
