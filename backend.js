@@ -167,6 +167,29 @@ function updateDescription(email, pass, description) {
     });
 }
 
+function returnArrayOfQueries(stringQuery) {
+        let query = new RegExp(stringQuery, "i");
+        return new Promise((resolve, reject) => {
+            db.collection("business_accounts")
+                .find(
+                    {
+                        companyName: {
+                            $regex: query,
+                        },
+                    },
+                    { projection: { emailAddress: 0, pass: 0 } }
+                )
+                .sort({ numberOfPeople: 1 })
+                .toArray(function (err, result) {
+                    if (err) {
+                        reject("Failed Query");
+                    } else {
+                        resolve(result);
+                    }
+                });
+        });
+    }
+
 // connect()
 //     .then(() => {
 //         login("hah@gmail.com", "r3q23rq");
