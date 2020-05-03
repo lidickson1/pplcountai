@@ -72,28 +72,30 @@ module.exports = {
             postalCode: postalCode,
             maxNumberOfPeople: maxNumberOfPeople,
             description: description,
-            numberOfPeople: 0
+            numberOfPeople: 0,
         };
-        db.collection("business_accounts")
-            .find({ emailAddress: email, pass: pass })
-            .toArray(function (err, result) {
-                if (err) {
-                    reject(err);
-                }
-
-                if (result.length > 0) {
-                    reject("Business already exists!");
-                }
-                db.collection("business_accounts").insertOne(
-                    businessObject,
-                    function (err, res) {
-                        if (err) {
-                            reject(err);
-                        }
+        return new Promise((resolve, reject) => {
+            db.collection("business_accounts")
+                .find({ emailAddress: email, pass: pass })
+                .toArray(function (err, result) {
+                    if (err) {
+                        reject(err);
                     }
-                );
-            });
-        return true;
+
+                    if (result.length > 0) {
+                        reject("Business already exists!");
+                    }
+                    db.collection("business_accounts").insertOne(
+                        businessObject,
+                        function (err, res) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(res);
+                        }
+                    );
+                });
+        });
     },
 
     businessExists: function (email, pass) {
@@ -102,7 +104,7 @@ module.exports = {
                 .find({ emailAddress: email, pass: pass })
                 .toArray(function (err, result) {
                     if (err) {
-                        resolve(false);
+                        resolve("Error!");
                     }
                     if (result.length == 0) {
                         reject("Business doesn't exist!");
@@ -113,93 +115,130 @@ module.exports = {
     },
 
     deleteBusinessAccount: function (email, pass) {
-        businessExists(email, pass).then((result) => {
-            db.collection("business_accounts").deleteOne(
-                { emailAddress: email, pass: pass },
-                function (err, obj) {
-                    if (err) {
-                        reject(err);
-                    }
-                }
-            );
+        return new Promise((resolve, reject) => {
+            businessExists(email, pass)
+                .then((result) => {
+                    db.collection("business_accounts").deleteOne(
+                        { emailAddress: email, pass: pass },
+                        function (err, obj) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(obj);
+                        }
+                    );
+                })
+                .catch((err) => reject(err));
         });
     },
 
     //allows company to change number of people in business
     updateNumberOfPeople: function (email, pass, numberOfPeople) {
-        businessExists(email, pass).then((result) => {
-            let newValues = { $set: { numberOfPeople: numberOfPeople } };
-            db.collection("business_accounts").updateOne(
-                { emailAddress: email, pass: pass },
-                newValues,
-                function (err, res) {
-                    if (err) {
-                        reject(err);
-                    }
-                }
-            );
+        return new Promise((resolve, reject) => {
+            businessExists(email, pass)
+                .then((result) => {
+                    let newValues = {
+                        $set: { numberOfPeople: numberOfPeople },
+                    };
+                    db.collection("business_accounts").updateOne(
+                        { emailAddress: email, pass: pass },
+                        newValues,
+                        function (err, res) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(res);
+                        }
+                    );
+                })
+                .catch((err) => reject(err));
         });
     },
 
     //allows company to increase number of people in business by one
     incrementNumberOfPeople: function (email, pass) {
-        businessExists(email, pass).then((result) => {
-            let num = result[0].numberOfPeople;
+        return new Promise((resolve, reject) => {
+            businessExists(email, pass)
+                .then((result) => {
+                    let num = result[0].numberOfPeople;
 
-            let newValues = { $set: { numberOfPeople: num + 1 } };
-            db.collection("business_accounts").updateOne(
-                { emailAddress: email, pass: pass },
-                newValues,
-                function (err, res) {
-                    if (err) {
-                        reject(err);
-                    }
-                }
-            );
+                    let newValues = { $set: { numberOfPeople: num + 1 } };
+                    db.collection("business_accounts").updateOne(
+                        { emailAddress: email, pass: pass },
+                        newValues,
+                        function (err, res) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(res);
+                        }
+                    );
+                })
+                .catch((err) => reject(err));
         });
     },
 
     //allows company to decrease number of people in business by one
     decrementNumberOfPeople: function (email, pass) {
-        businessExists(email, pass).then((result) => {
-            let num = result[0].numberOfPeople;
+        return new Promise((resolve, reject) => {
+            businessExists(email, pass)
+                .then((result) => {
+                    let num = result[0].numberOfPeople;
 
-            let newValues = { $set: { numberOfPeople: num - 1 } };
-            db.collection("business_accounts").updateOne(
-                { emailAddress: email, pass: pass },
-                newValues,
-                function (err, res) {
-                    if (err) {
-                        reject(err);
-                    }
-                }
-            );
+                    let newValues = { $set: { numberOfPeople: num - 1 } };
+                    db.collection("business_accounts").updateOne(
+                        { emailAddress: email, pass: pass },
+                        newValues,
+                        function (err, res) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(res);
+                        }
+                    );
+                })
+                .catch((err) => reject(err));
         });
     },
 
     //allows company to change number of people in business
     updateDescription: function (email, pass, description) {
-        businessExists(email, pass).then((result) => {
-            let newValues = { $set: { description: description } };
-            db.collection("business_accounts").updateOne(
-                { emailAddress: email, pass: pass },
-                newValues,
-                function (err, res) {
-                    if (err) {
-                        reject(err);
-                    }
-                }
-            );
+        return new Promise((resolve, reject) => {
+            businessExists(email, pass)
+                .then((result) => {
+                    let newValues = { $set: { description: description } };
+                    db.collection("business_accounts").updateOne(
+                        { emailAddress: email, pass: pass },
+                        newValues,
+                        function (err, res) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(res);
+                        }
+                    );
+                })
+                .catch((err) => reject(err));
         });
     },
 };
 
 // module.exports
 //     .connect()
-//     .then(() => module.exports.companyList("Google"))
+//     .then(() =>
+//         module.exports.createBusinessAccount(
+//             "test@test.com",
+//             "password",
+//             "The Company",
+//             "123 Street",
+//             "ABC 123",
+//             100,
+//             "Very fun company"
+//         )
+//     )
 //     .then((result) => console.log(result))
 //     .catch((err) => {
-//         throw err;
+//         console.log("Error!");
 //     });
 
 /*
