@@ -114,6 +114,24 @@ function updateNumberOfPeople(email, pass, numberOfPeople) {
     });
 }
 
+
+//allows company to update its description (we forgot to add this function when we submitted the file.)
+//we have only allowed the business account to update description and of course number of people
+function updateDescription(email, pass, description) {
+    businessExists(email, pass).then((result) => {
+        let newValues = { $set: { description: description} };
+        db.collection("business_accounts").updateOne(
+            { emailAddress: email, pass: pass },
+            newValues,
+            function (err, res) {
+                if (err) {
+                    throw err;
+                }
+            }
+        );
+    });
+}
+
 //allows company to increase number of people in business by one
 function incrementNumberOfPeople(email, pass) {
     businessExists(email, pass).then((result) => {
