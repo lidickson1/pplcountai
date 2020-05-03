@@ -33,10 +33,16 @@ server.post("/list", function (request, response) {
 });
 
 server.post("/create-business-account", function (request, response) {
-  backend
-        .createBusinessAccount(request.body.email, request.body.pass, 
-        request.body.companyName, request.body.address, request.body.postalCode,
-        request.body.maxNumberOfPeople, requestion.body.description)
+    backend
+        .createBusinessAccount(
+            request.body.email,
+            request.body.pass,
+            request.body.companyName,
+            request.body.address,
+            request.body.postalCode,
+            request.body.maxNumberOfPeople,
+            request.body.description
+        )
         .then((res) => {
             response.status(200).json(res);
         })
@@ -45,22 +51,11 @@ server.post("/create-business-account", function (request, response) {
         });
 });
 
-server.post("/business-exists", function (request, response) {
-  backend
-        .businessExists(request.body.email, request.body.pass)
-        .then((result) => {
-            response.status(200).json(result);
-        })
-        .catch((err) => {
-            response.status(401).send("Error occurred!");
-        });
-});
-
-server.post("/delete-business-account", function (request, response) { 
-  backend
+server.post("/delete-business-account", function (request, response) {
+    backend
         .deleteBusinessAccount(request.body.email, request.body.pass)
         .then((obj) => {
-            response.status(200).json(obj)
+            response.status(200).json(obj);
         })
         .catch((err) => {
             response.status(401).send("Account failed to be deleted!");
@@ -68,9 +63,12 @@ server.post("/delete-business-account", function (request, response) {
 });
 
 server.post("/update-number-of-people", function (request, response) {
-  backend
-        .updateNumberOfPeople(request.body.email, request.body.pass, 
-        request.body.numberOfPeople)
+    backend
+        .updateNumberOfPeople(
+            request.body.email,
+            request.body.pass,
+            request.body.numberOfPeople
+        )
         .then((res) => {
             response.status(200).json(res);
         })
@@ -80,7 +78,7 @@ server.post("/update-number-of-people", function (request, response) {
 });
 
 server.post("/increment-number-of-people", function (request, response) {
-  backend
+    backend
         .incrementNumberOfPeople(request.body.email, request.body.pass)
         .then((res) => {
             response.status(200).json(res);
@@ -91,7 +89,7 @@ server.post("/increment-number-of-people", function (request, response) {
 });
 
 server.post("/decrement-number-of-people", function (request, response) {
-  backend
+    backend
         .decrementNumberOfPeople(request.body.email, request.body.pass)
         .then((res) => {
             response.status(200).json(res);
@@ -102,14 +100,17 @@ server.post("/decrement-number-of-people", function (request, response) {
 });
 
 server.post("/update-description", function (request, response) {
-  backend
-        .updateDescription(request.body.email, request.body.pass, 
-        request.body.description)
+    backend
+        .updateDescription(
+            request.body.email,
+            request.body.pass,
+            request.body.description
+        )
         .then((res) => {
             response.status(200).json(res);
         })
         .catch((err) => {
-            response.status(401).send("Failed to update desctiption!");
+            response.status(401).send("Failed to update description!");
         });
 });
 
