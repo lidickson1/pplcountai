@@ -121,4 +121,48 @@ server.post("/update-description", function (request, response) {
         });
 });
 
+server.post("/update-company-name", function (request, response) {
+    backend
+        .updateCompanyName(request.body.email, request.body.pass, request.body.newCompanyName)
+        .then((res) =>{
+            response.status(200).json(res);
+        })
+        .catch((err) => {
+            response.status(401).send("Failed To Update Company Name");
+        });
+});
+
+server.post("/update-address", function (request, response) {
+    backend
+        .updateAddress(request.body.email, request.body.pass, request.body.newAddress)
+        .then((res) =>{
+            response.status(200).json(res);
+        })
+        .catch((err) => {
+            response.status(401).send("Failed To Update Address");
+        });
+});
+
+server.post("/update-postal", function (request, response) {
+    backend
+        .updatePostalCode(request.body.email, request.body.pass, request.body.newPostal)
+        .then((res) =>{
+            response.status(200).json(res);
+        })
+        .catch((err) => {
+            response.status(401).send("Failed To Update Postal");
+        });
+});
+
+server.post("/update-MaxNumberOfPeople", function (request, response) {
+    backend
+        .updateMaxNumberOfPeople(request.body.email, request.body.pass, request.body.newPostal)
+        .then((res) =>{
+            response.status(200).json(res);
+        })
+        .catch((err) => {
+            response.status(401).send("Failed To Update Maximum Allowed People");
+        });
+});
+
 server.listen(server.get("port"));
