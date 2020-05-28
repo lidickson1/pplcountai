@@ -221,6 +221,86 @@ module.exports = {
                 .catch((err) => reject(err));
         });
     },
+    
+    updateAddress: function (email, pass, newAddress) {
+        return new Promise((resolve, reject) => {
+            businessExists(email, pass)
+                .then((result) => {
+                    let newValues = { $set: { address: newAddress } };
+                    db.collection("business_accounts").updateOne(
+                        { emailAddress: email, pass: pass },
+                        newValues,
+                        function (err, res) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(res);
+                        }
+                    );
+                })
+                .catch((err) => reject(err));
+        });
+    },
+
+    updatePostalCode: function (email, pass, newPostalCode) {
+        return new Promise((resolve, reject) => {
+            businessExists(email, pass)
+                .then((result) => {
+                    let newValues = { $set: { postalCode: newPostalCode } };
+                    db.collection("business_accounts").updateOne(
+                        { emailAddress: email, pass: pass },
+                        newValues,
+                        function (err, res) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(res);
+                        }
+                    );
+                })
+                .catch((err) => reject(err));
+        });
+    },
+
+    updateCompanyName : function (email, pass, newCompanyName){ 
+        return new Promise((resolve, reject) => {
+            businessExists(email, pass)
+                .then((result) => {
+                    let newValues = { $set: { companyName: newCompanyName } };
+                    db.collection("business_accounts").updateOne(
+                        { emailAddress: email, pass: pass },
+                        newValues,
+                        function (err, res) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(res);
+                        }
+                    );
+                })
+                .catch((err) => reject(err));
+        });
+    },
+    
+    updateMaxNumberOfPeople: function (email, pass, newMaxNumberOfPeople) {
+        return new Promise((resolve, reject) => {
+            businessExists(email, pass)
+                .then((result) => {
+                    let newValues = { $set: { maxNumberOfPeople: newMaxNumberOfPeople } };
+                    db.collection("business_accounts").updateOne(
+                        { emailAddress: email, pass: pass },
+                        newValues,
+                        function (err, res) {
+                            if (err) {
+                                reject(err);
+                            }
+                            resolve(res);
+                        }
+                    );
+                })
+                .catch((err) => reject(err));
+        });
+    }
 };
 
 // module.exports
